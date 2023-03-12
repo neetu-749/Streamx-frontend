@@ -23,18 +23,22 @@ class SignIn extends React.Component {
 
   onSubmitHandler() {
     if (!(this.state.email === '' || this.state.password === '')
-      && (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.state.email))) {
-      axios.post('/api/signIn', {
+    && (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.state.email))) {
+        console.log("anil");
+      axios.post('http://localhost:5000/api/signIn', {
         email: this.state.email,
         password: this.state.password
       }).then(res => {
-        this.setState({
-          token: res.data.token
-        });
+        // console.log(res);
+          this.setState({
+            token: res.data.token
+          });
+        console.log(this.state.token);
         const data = {
           token: this.state.token,
           time: new Date().getTime()
         }
+        // console.log(data);
         localStorage.setItem('userTokenTime', JSON.stringify(data));
         this.setState({
           redirect: true
@@ -63,7 +67,7 @@ class SignIn extends React.Component {
     if (this.state.redirect) return <Navigate to="/" />;
     return (
       <Form onSubmit={this.onSubmitHandler.bind(this)}>
-        <h3 className="text-center text-info">Login</h3>
+        <h6>Already a user? </h6><h3 className="text-center text-info">Login</h3>
         <div className="form-group">
           <label htmlFor="email" className="text-info">Email:</label><br />
           <input

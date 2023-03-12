@@ -28,7 +28,7 @@ class Upload extends React.Component {
         }
       }
       if (err !== '') {
-        // error caught
+        // error 
         event.target.value = null;
         toast.error(err + " is/are too large. Please select file size < 50Mb");
       }
@@ -48,10 +48,11 @@ class Upload extends React.Component {
 
   fileUploadHandler(event) {
     const data = new FormData();
-    for (let i = 0; i < this.state.selectedVideos.length; i++) {
+    for (let i = 0; i < this.state.selectedVideos?.length; i++) {
       data.append('file', this.state.selectedVideos[i]);
     }
-    axios.post('http://127.0.0.1:3333/api/upload', data, {
+    console.log(localStorage.getItem('userTokenTime'));
+    axios.post('http://127.0.0.1:5000/api/upload', data, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userTokenTime')).token
